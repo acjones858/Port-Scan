@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# Prompt for the starting IP address
+echo "Enter the starting IP address: "
+read -r FirstIP
+
+# Prompt for the last octet of the last IP address
+echo "Enter the last octet of the last IP address: "
+read -r LastOctetIP
+
+# Prompt for the port number to scan for
+echo "Enter the port number you want to scan for: "
+read -r port
+
+# Perform the port scan using nmap, redirecting the output to stdout
+nmap -sT "$FirstIP-$LastOctetIP" -p "$port" -oG - |
+    awk '/open/{print $2 ":" $5}'  # Filter and print IP address and port for open ports
